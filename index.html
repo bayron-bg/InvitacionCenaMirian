@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cena de Bayron & Mirian</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .titulo-principal {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    /* Slider principal */
+    .slider {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    /* Animación fade-in para secciones */
+    section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      scroll-margin-top: 100px;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Slider momentos */
+    #slider-momentos {
+      position: relative;
+      width: 100%;
+      height:1000px;
+      overflow: hidden;
+    }
+    #slider-momentos img {
+      position: absolute;
+      width: 100%;
+      height: 1000px;
+      object-fit: cover;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.7s ease-in-out;
+    }
+    #slider-momentos img.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    /* Imagenes momentos en móvil (más grandes) */
+    @media (max-width: 768px) {
+      #slider-momentos {
+        height: 400px;
+      }
+      #slider-momentos img {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Menú de navegación -->
+  <nav class="bg-black fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <span class="titulo-principal text-4xl font-bold text-blue-600"> Bayron &nbsp; & &nbsp; Mirian</span>
+
+      <button id="menu-btn" class="text-white md:hidden text-3xl focus:outline-none z-50 relative">&#9776;</button>
+
+      <div class="hidden md:flex space-x-6 text-white font-medium text-base">
+        <a href="#Invitacion" class="hover:text-blue-400">Invitación</a>
+        <a href="#momentos" class="hover:text-blue-400">Momentos</a>
+        <a href="#registro" class="hover:text-blue-400">Confirmación</a>
+        <a href="#ubicacion" class="hover:text-blue-400">Ubicación</a>
+        <a href="#regalos" class="hover:text-blue-400">Regalos</a>
+        <a href="#vestimenta" class="hover:text-blue-400">Vestimenta</a>
+        <a href="#agenda" class="hover:text-blue-400">Agenda</a>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-64 bg-black text-white transform translate-x-full transition-transform duration-300 ease-in-out md:hidden z-40 p-6 space-y-6">
+      <a href="#Invitacion" class="block hover:text-blue-400" onclick="toggleMenu()">Invitación</a>
+      <a href="#momentos" class="block hover:text-blue-400" onclick="toggleMenu()">Momentos</a>
+      <a href="#registro" class="block hover:text-blue-400" onclick="toggleMenu()">Confirmación</a>
+      <a href="#ubicacion" class="block hover:text-blue-400" onclick="toggleMenu()">Ubicación</a>
+      <a href="#regalos" class="block hover:text-blue-400" onclick="toggleMenu()">Regalos</a>
+      <a href="#vestimenta" class="block hover:text-blue-400" onclick="toggleMenu()">Vestimenta</a>
+      <a href="#agenda" class="block hover:text-blue-400" onclick="toggleMenu()">Agenda</a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+<header class="pt-24 relative">
+  <div class="flex h-[80vh] max-w-7xl mx-auto px-4 gap-4 overflow-hidden">
+    <!-- Imagen izquierda (oculta en móvil) -->
+    <img 
+      src=".\izquierda.jpeg" 
+      alt="Pareja 1" 
+      class="hidden md:block w-1/3 h-full object-cover rounded-lg shadow-md" />
+
+    <!-- Imagen central (visible siempre) -->
+    <img 
+      src=".\principal.jpeg" 
+      alt="Pareja 2" 
+      class="w-full md:w-1/3 h-full object-cover rounded-lg shadow-md" />
+
+    <!-- Imagen derecha (oculta en móvil) -->
+    <img 
+      src=".\derecha.jpeg" 
+      alt="Pareja 3" 
+      class="hidden md:block w-1/3 h-full object-cover rounded-lg shadow-md" />
+  </div>
+
+<!-- Texto superpuesto mejorado -->
+<div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4 z-10">
+  <h1 class="text-6xl md:text-8xl titulo-principal mb-4 text-white" style="
+  text-shadow:
+    -1.5px -1.5px 0 #000,
+    1.5px -1.5px 0 #000,
+    -1.5px 1.5px 0 #000,
+    1.5px 1.5px 0 #000;">¡Cena de Recién Casados!</h1>
+
+  <p class="text-2xl md:text-5xl text-white drop-shadow-md" style="
+  text-shadow:
+    -1.5px -1.5px 0 #0000ff,
+    1.5px -1.5px 0 #0000ff,
+    -1.5px 1.5px 0 #0000ff,
+    1.5px 1.5px 0 #0000ff;
+">Bayron Garcia&nbsp; & &nbsp;Mirian Zelaya</p>
+
+  <p class="text-xl md:text-3xl mt-4  text-white drop-shadow-md"  style="
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+">16 de Agosto de 2025</p>
+</div>
+
+
+</header>
+
+  <main class="max-w-5xl mx-auto px-4 py-24 space-y-10">
+
+<section>
+  <h3>Escucha nuestra música</h3>
+  <audio controls>
+    <source src="Melendi - La promesa.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+</section>
+
+    <section id="Invitacion" class="bg-white shadow-2xl p-10 rounded-2xl">
+      <h2 class="text-4xl font-bold text-blue-600 mb-6">Una celebración del amor</h2>
+      <p class="text-lg text-justify leading-relaxed text-black">Nuestro amor ha sido una historia escrita con paciencia, confianza y sueños compartidos. Hoy, con los corazones llenos de ilusión, damos un paso más hacia nuestra eternidad. Queremos compartir este día inolvidable contigo, porque sin ti no estaría completo. Acompáñanos a celebrar con una cena el inicio de nuestra nueva etapa de vida juntos.</p>
+    </section>
+
+ <section id="momentos" class="bg-white shadow-2xl p-10 rounded-2xl">
+      <h2 class="text-4xl font-bold text-blue-600 mb-6 text-center">Momentos que queremos compartir</h2>
+      <div id="slider-momentos">
+        <img src=".\izquierda.jpeg" class="active" alt="Momento 1" />
+        <img src=".\principal.jpeg" alt="Momento 2" />
+        <img src=".\derecha.jpeg" alt="Momento 3" />
+      </div>
+      <div class="text-center mt-4 text-lg font-semibold text-black">Un viaje lleno de amor - Gracias por ser parte de nuestra historia</div>
+    </section>
+
+       <!-- Confirmación de asistencia -->
+<section id="registro" class="bg-white shadow-2xl p-10 rounded-2xl">
+  <h3 class="text-4xl font-bold text-center text-blue-600 mb-6">Confirma tu asistencia</h3>
+  <h5 class="font-bold text-center text-pink-600 mb-2">Instrucciones</h5>
+  <h5 class="font-bold text-justified text-black-600 mb-2">1.Ingresa el código de invitado y haz clic en "Verificar código"</h5>
+  <h5 class="font-bold text-justified text-black-600 mb-2">2.Espera la verificación de tu Invitación</h5>
+  <h5 class="font-bold text-justified text-black-600 mb-2">3.Envía tu asistencia desde tu WhatsApp para que llegue a los organizadores</h5>
+
+
+  <!-- Código de invitación -->
+  <div class="mb-6 text-center">
+    <input id="codigo" type="text" placeholder="Código de invitación" class="border p-4 rounded-lg w-full md:w-1/3" />
+    <button onclick="verificarCodigo()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full ml-4">Verificar código</button>
+  </div>
+
+  <!-- Formulario oculto -->
+  <div id="formularioDatos" class="hidden">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <input id="nombre" type="text" placeholder="Tu nombre completo" class="border p-4 rounded-lg" />
+      <input id="personas" type="number" placeholder="Número de personas" class="border p-4 rounded-lg" />
+    </div>
+    <div class="text-center">
+      <button onclick="confirmarAsistencia()" class="bg-blue-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full shadow-lg transition">Confirmar vía WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+       <!-- Ubicación -->
+   <section id="ubicacion" class="bg-white shadow-2xl p-10 rounded-2xl">
+      <h2 class="text-4xl font-bold text-blue-600 mb-6">¿Dónde será?</h2>
+      <p class="mb-6 text-lg text-justify">La ceremonia se celebrará en ENGA-DI Salón de eventos, un lugar lleno de encanto natural. A continuación, te dejamos la ubicación exacta:</p>
+
+    <iframe class="w-full h-72 rounded-lg"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2077.8707910576722!2d-86.84775267855233!3d14.56476857667858!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6ee10004d299ed%3A0x763f349f42077d9b!2sENGA-DI%20Sal%C3%B3n%20de%20eventos!5e1!3m2!1ses!2ses!4v1751900993295!5m2!1ses!2ses" 
+      allowfullscreen loading="lazy">
+    </iframe>
+</section>
+
+    <section id="regalos" class="bg-white shadow-2xl p-10 rounded-2xl">
+      <h2 class="text-4xl font-bold text-blue-600 mb-6">Lista de regalos</h2>
+      <p class="text-lg mb-4">Tu presencia es el mejor regalo. Pero si deseas obsequiarnos algo, aquí tienes algunas ideas:</p>
+      <ul class="list-disc list-inside text-lg space-y-2">
+        <li><a href="#" class="text-blue-600 hover:underline">Aporte monetario si es tu voluntad</a></li>
+        <li><a href="#" class="text-blue-600 hover:underline">Electrodomésticos pequeños</a></li>
+        <li><a href="#" class="text-blue-600 hover:underline">Experiencias para dos</a></li>
+        <li><a href="#" class="text-blue-600 hover:underline">Tarjeta de Expresso Americano</a></li>
+        <li><a href="#" class="text-blue-600 hover:underline">Cena romántica</a></li>
+      </ul>
+    </section>
+
+    <section id="vestimenta" class="bg-white shadow-2xl p-10 rounded-2xl">
+      <h2 class="text-4xl font-bold text-blue-600 mb-6">Código de vestimenta</h2>
+      <p class="text-lg">No hay código de vestimenta.</p>
+    </section>
+
+    <section id="agenda" class="bg-white shadow-2xl p-10 rounded-2xl">
+      <h2 class="text-4xl font-bold text-blue-600 mb-6">Agenda del día</h2>
+      <ul class="list-disc list-inside text-lg space-y-2">
+        <li>4:30 PM - Llegada de invitados</li>
+        <li>5:30 PM - Cena</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <div class="bg-blue-100 text-center py-6 text-4xl text-gray-700">
+   <p>Con amor, Bayron & Mirian</p>
+    <p>Gracias por acompañarnos en este momento tan especial ❤️</p>
+  </div>
+
+  <footer class="bg-black text-center py-4 text-sm text-white">
+    <p class="mb-2">Diseñado por Ing. Bayron Garcia | BG MultiTech· © 2025</p>
+  </footer>
+
+  <script>
+    // Slider principal
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+    }
+
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }, 4000); // cambia cada 4 segundos
+
+    // Slider momentos
+    let currentMomento = 0;
+    const momentos = document.querySelectorAll('#slider-momentos img');
+
+    function showMomento(index) {
+      momentos.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
+    }
+
+    setInterval(() => {
+      currentMomento = (currentMomento + 1) % momentos.length;
+      showMomento(currentMomento);
+    }, 3000); // cambia cada 3 segundos
+
+    // Animar secciones cuando aparecen en pantalla
+    const sections = document.querySelectorAll('section');
+    function checkSections() {
+      const triggerBottom = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < triggerBottom) {
+          section.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkSections);
+    window.addEventListener('load', checkSections);
+
+    // Confirmar asistencia WhatsApp
+  let codigoValido = false;
+
+async function verificarCodigo() {
+  const codigoIngresado = document.getElementById("codigo").value.trim().toLowerCase();
+
+  if (!codigoIngresado) {
+    alert("Por favor ingresa tu código de invitación.");
+    return;
+  }
+
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbymDCLS2MZppSCKzJwmHWCA7GYIpkn7NKoyCtGhjCyCVcIDMHG0JXHgvglnMk29fLV4mg/exec");
+    const data = await response.json();
+
+    const codigosInvitacion = data.map(item => item.toLowerCase());
+
+    if (codigosInvitacion.includes(codigoIngresado)) {
+      codigoValido = true;
+      document.getElementById("formularioDatos").classList.remove("hidden");
+      alert("¡Código válido! Ahora completa tus datos para confirmar tu asistencia a la cena.");
+    } else {
+      alert("El código ingresado para la cena no es válido. Verifica con los novios si tienes dudas.");
+    }
+  } catch (error) {
+    alert("Error al verificar el código. Intenta más tarde.");
+    console.error(error);
+  }
+}
+
+function confirmarAsistencia() {
+  if (!codigoValido) {
+    alert("Primero debes verificar tu código de invitación.");
+    return;
+  }
+
+  const nombre = document.getElementById("nombre").value.trim();
+  const personas = document.getElementById("personas").value.trim();
+
+  if (!nombre || !personas) {
+    alert("Por favor completa todos los campos.");
+    return;
+  }
+
+  const mensaje = `¡Hola! Confirmo mi asistencia a la cena.%0ANombre: ${nombre}%0ANúmero de personas: ${personas}`;
+  const whatsappURL = `https://wa.me/34641862314?text=${mensaje}`;
+  window.open(whatsappURL, '_blank');
+}
+
+    // Menú móvil
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let menuOpen = false;
+
+    function toggleMenu() {
+      if(menuOpen) {
+        mobileMenu.style.transform = 'translateX(100%)';
+        menuOpen = false;
+      } else {
+        mobileMenu.style.transform = 'translateX(0)';
+        menuOpen = true;
+      }
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+  </script>
+</body>
+</html>
